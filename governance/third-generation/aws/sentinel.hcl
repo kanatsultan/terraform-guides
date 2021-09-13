@@ -86,7 +86,7 @@ policy "restrict-egress-sg-rule-cidr-blocks" {
 
 policy "restrict-eks-node-group-size" {
   source = "./restrict-eks-node-group-size.sentinel"
-  enforcement_level = "advisory"
+  enforcement_level = "hard-mandatory"
 }
 
 policy "restrict-iam-policy-actions" {
