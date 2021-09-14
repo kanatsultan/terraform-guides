@@ -14,6 +14,16 @@ module "aws-functions" {
   source = "./aws-functions/aws-functions.sentinel"
 }
 
+policy "restrict-eks-service-type" {
+  source = "./restrict-eks-service-type.sentinel"
+  enforcement_level = "hard-mandatory"
+}
+
+policy "restrict-eks-pod-memory" {
+  source = "./restrict-eks-pod-memory.sentinel"
+  enforcement_level = "hard-mandatory"
+}
+
 policy "enforce-mandatory-tags" {
   source = "./enforce-mandatory-tags.sentinel"
   enforcement_level = "advisory"
