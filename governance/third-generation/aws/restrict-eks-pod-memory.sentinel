@@ -29,7 +29,7 @@ kubernetes_limit_ranges = func() {
 	limit_ranges = []
 	// Iterate over all the resources in the Terraform plan and
 	// find kubernetes_limit_range resource
-	for tfplan.resources as type, resource {
+	for plan.resources as type, resource {
 		if type is "kubernetes_limit_range" {
 			limit_ranges += [resource]
 		}
