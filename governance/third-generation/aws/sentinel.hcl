@@ -19,10 +19,6 @@ policy "restrict-eks-service-type" {
   enforcement_level = "hard-mandatory"
 }
 
-policy "restrict-eks-pod-memory" {
-  source = "./restrict-eks-pod-memory.sentinel"
-  enforcement_level = "hard-mandatory"
-}
 
 policy "enforce-mandatory-tags" {
   source = "./enforce-mandatory-tags.sentinel"
