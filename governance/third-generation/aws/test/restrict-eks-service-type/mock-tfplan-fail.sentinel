@@ -1,0 +1,1539 @@
+terraform_version = "1.0.6"
+
+planned_values = {
+	"outputs": {},
+	"resources": {
+		"kubernetes_deployment.skiapp-deployment": {
+			"address":        "kubernetes_deployment.skiapp-deployment",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "",
+			"name":           "skiapp-deployment",
+			"provider_name":  "registry.terraform.io/hashicorp/kubernetes",
+			"tainted":        false,
+			"type":           "kubernetes_deployment",
+			"values": {
+				"metadata": [
+					{
+						"annotations":   null,
+						"generate_name": null,
+						"labels":        null,
+						"name":          "skiapp-deployment",
+						"namespace":     "default",
+					},
+				],
+				"spec": [
+					{
+						"min_ready_seconds":         0,
+						"paused":                    false,
+						"progress_deadline_seconds": 600,
+						"replicas":                  "2",
+						"revision_history_limit":    10,
+						"selector": [
+							{
+								"match_expressions": [],
+								"match_labels": {
+									"app": "skiapp",
+								},
+							},
+						],
+						"template": [
+							{
+								"metadata": [
+									{
+										"annotations":   null,
+										"generate_name": null,
+										"labels": {
+											"app": "skiapp",
+										},
+										"namespace": null,
+									},
+								],
+								"spec": [
+									{
+										"active_deadline_seconds":         null,
+										"affinity":                        [],
+										"automount_service_account_token": true,
+										"container": [
+											{
+												"args":           null,
+												"command":        null,
+												"env":            [],
+												"env_from":       [],
+												"image":          "sharepointoscar/skiapp:v1",
+												"lifecycle":      [],
+												"liveness_probe": [],
+												"name":           "skiapp",
+												"port": [
+													{
+														"container_port": 8080,
+														"host_ip":        null,
+														"host_port":      null,
+														"name":           null,
+														"protocol":       "TCP",
+													},
+												],
+												"readiness_probe":          [],
+												"security_context":         [],
+												"startup_probe":            [],
+												"stdin":                    false,
+												"stdin_once":               false,
+												"termination_message_path": "/dev/termination-log",
+												"tty":          false,
+												"volume_mount": [],
+												"working_dir":  null,
+											},
+										],
+										"dns_config":                       [],
+										"dns_policy":                       "ClusterFirst",
+										"enable_service_links":             true,
+										"host_aliases":                     [],
+										"host_ipc":                         false,
+										"host_network":                     false,
+										"host_pid":                         false,
+										"init_container":                   [],
+										"node_selector":                    null,
+										"priority_class_name":              null,
+										"restart_policy":                   "Always",
+										"security_context":                 [],
+										"share_process_namespace":          false,
+										"subdomain":                        null,
+										"termination_grace_period_seconds": 30,
+										"toleration":                       [],
+										"topology_spread_constraint":       [],
+									},
+								],
+							},
+						],
+					},
+				],
+				"timeouts":         null,
+				"wait_for_rollout": true,
+			},
+		},
+		"kubernetes_ingress.skiapp-ingress": {
+			"address":        "kubernetes_ingress.skiapp-ingress",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "",
+			"name":           "skiapp-ingress",
+			"provider_name":  "registry.terraform.io/hashicorp/kubernetes",
+			"tainted":        false,
+			"type":           "kubernetes_ingress",
+			"values": {
+				"metadata": [
+					{
+						"annotations": {
+							"alb.ingress.kubernetes.io/group.name":  "marketing",
+							"alb.ingress.kubernetes.io/scheme":      "internet-facing",
+							"alb.ingress.kubernetes.io/tags":        "Environment=dev,Team=Finance",
+							"alb.ingress.kubernetes.io/target-type": "ip",
+							"kubernetes.io/ingress.class":           "alb",
+						},
+						"generate_name": null,
+						"labels":        null,
+						"name":          "skiapp-ingress",
+						"namespace":     "default",
+					},
+				],
+				"spec": [
+					{
+						"backend":            [],
+						"ingress_class_name": null,
+						"rule": [
+							{
+								"host": "skiapp.k8s.devopsoscar.dev",
+								"http": [
+									{
+										"path": [
+											{
+												"backend": [
+													{
+														"service_name": "skiapp-service",
+														"service_port": "80",
+													},
+												],
+												"path": "/*",
+											},
+										],
+									},
+								],
+							},
+						],
+						"tls": [],
+					},
+				],
+				"wait_for_load_balancer": null,
+			},
+		},
+		"kubernetes_service.skiapp-service": {
+			"address":        "kubernetes_service.skiapp-service",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "",
+			"name":           "skiapp-service",
+			"provider_name":  "registry.terraform.io/hashicorp/kubernetes",
+			"tainted":        false,
+			"type":           "kubernetes_service",
+			"values": {
+				"metadata": [
+					{
+						"annotations":   null,
+						"generate_name": null,
+						"labels":        null,
+						"name":          "skiapp-service",
+						"namespace":     "default",
+					},
+				],
+				"spec": [
+					{
+						"external_ips":                null,
+						"external_name":               null,
+						"load_balancer_ip":            null,
+						"load_balancer_source_ranges": null,
+						"port": [
+							{
+								"name":        null,
+								"port":        80,
+								"protocol":    "TCP",
+								"target_port": "8080",
+							},
+						],
+						"publish_not_ready_addresses": false,
+						"selector": {
+							"app": "skiapp",
+						},
+						"session_affinity": "None",
+						"type":             "LoadBalancer",
+					},
+				],
+				"timeouts":               null,
+				"wait_for_load_balancer": true,
+			},
+		},
+	},
+}
+
+variables = {}
+
+resource_changes = {
+	"kubernetes_deployment.skiapp-deployment": {
+		"address": "kubernetes_deployment.skiapp-deployment",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"metadata": [
+					{
+						"annotations":   null,
+						"generate_name": null,
+						"labels":        null,
+						"name":          "skiapp-deployment",
+						"namespace":     "default",
+					},
+				],
+				"spec": [
+					{
+						"min_ready_seconds":         0,
+						"paused":                    false,
+						"progress_deadline_seconds": 600,
+						"replicas":                  "2",
+						"revision_history_limit":    10,
+						"selector": [
+							{
+								"match_expressions": [],
+								"match_labels": {
+									"app": "skiapp",
+								},
+							},
+						],
+						"template": [
+							{
+								"metadata": [
+									{
+										"annotations":   null,
+										"generate_name": null,
+										"labels": {
+											"app": "skiapp",
+										},
+										"namespace": null,
+									},
+								],
+								"spec": [
+									{
+										"active_deadline_seconds":         null,
+										"affinity":                        [],
+										"automount_service_account_token": true,
+										"container": [
+											{
+												"args":           null,
+												"command":        null,
+												"env":            [],
+												"env_from":       [],
+												"image":          "sharepointoscar/skiapp:v1",
+												"lifecycle":      [],
+												"liveness_probe": [],
+												"name":           "skiapp",
+												"port": [
+													{
+														"container_port": 8080,
+														"host_ip":        null,
+														"host_port":      null,
+														"name":           null,
+														"protocol":       "TCP",
+													},
+												],
+												"readiness_probe":          [],
+												"security_context":         [],
+												"startup_probe":            [],
+												"stdin":                    false,
+												"stdin_once":               false,
+												"termination_message_path": "/dev/termination-log",
+												"tty":          false,
+												"volume_mount": [],
+												"working_dir":  null,
+											},
+										],
+										"dns_config":                       [],
+										"dns_policy":                       "ClusterFirst",
+										"enable_service_links":             true,
+										"host_aliases":                     [],
+										"host_ipc":                         false,
+										"host_network":                     false,
+										"host_pid":                         false,
+										"init_container":                   [],
+										"node_selector":                    null,
+										"priority_class_name":              null,
+										"restart_policy":                   "Always",
+										"security_context":                 [],
+										"share_process_namespace":          false,
+										"subdomain":                        null,
+										"termination_grace_period_seconds": 30,
+										"toleration":                       [],
+										"topology_spread_constraint":       [],
+									},
+								],
+							},
+						],
+					},
+				],
+				"timeouts":         null,
+				"wait_for_rollout": true,
+			},
+			"after_unknown": {
+				"id": true,
+				"metadata": [
+					{
+						"generation":       true,
+						"resource_version": true,
+						"uid":              true,
+					},
+				],
+				"spec": [
+					{
+						"selector": [
+							{
+								"match_expressions": [],
+								"match_labels":      {},
+							},
+						],
+						"strategy": true,
+						"template": [
+							{
+								"metadata": [
+									{
+										"generation":       true,
+										"labels":           {},
+										"name":             true,
+										"resource_version": true,
+										"uid":              true,
+									},
+								],
+								"spec": [
+									{
+										"affinity": [],
+										"container": [
+											{
+												"env":               [],
+												"env_from":          [],
+												"image_pull_policy": true,
+												"lifecycle":         [],
+												"liveness_probe":    [],
+												"port": [
+													{},
+												],
+												"readiness_probe":            [],
+												"resources":                  true,
+												"security_context":           [],
+												"startup_probe":              [],
+												"termination_message_policy": true,
+												"volume_mount":               [],
+											},
+										],
+										"dns_config":                 [],
+										"host_aliases":               [],
+										"hostname":                   true,
+										"image_pull_secrets":         true,
+										"init_container":             [],
+										"node_name":                  true,
+										"readiness_gate":             true,
+										"security_context":           [],
+										"service_account_name":       true,
+										"toleration":                 [],
+										"topology_spread_constraint": [],
+										"volume":                     true,
+									},
+								],
+							},
+						],
+					},
+				],
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "skiapp-deployment",
+		"provider_name":  "registry.terraform.io/hashicorp/kubernetes",
+		"type":           "kubernetes_deployment",
+	},
+	"kubernetes_ingress.skiapp-ingress": {
+		"address": "kubernetes_ingress.skiapp-ingress",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"metadata": [
+					{
+						"annotations": {
+							"alb.ingress.kubernetes.io/group.name":  "marketing",
+							"alb.ingress.kubernetes.io/scheme":      "internet-facing",
+							"alb.ingress.kubernetes.io/tags":        "Environment=dev,Team=Finance",
+							"alb.ingress.kubernetes.io/target-type": "ip",
+							"kubernetes.io/ingress.class":           "alb",
+						},
+						"generate_name": null,
+						"labels":        null,
+						"name":          "skiapp-ingress",
+						"namespace":     "default",
+					},
+				],
+				"spec": [
+					{
+						"backend":            [],
+						"ingress_class_name": null,
+						"rule": [
+							{
+								"host": "skiapp.k8s.devopsoscar.dev",
+								"http": [
+									{
+										"path": [
+											{
+												"backend": [
+													{
+														"service_name": "skiapp-service",
+														"service_port": "80",
+													},
+												],
+												"path": "/*",
+											},
+										],
+									},
+								],
+							},
+						],
+						"tls": [],
+					},
+				],
+				"wait_for_load_balancer": null,
+			},
+			"after_unknown": {
+				"id": true,
+				"metadata": [
+					{
+						"annotations":      {},
+						"generation":       true,
+						"resource_version": true,
+						"uid":              true,
+					},
+				],
+				"spec": [
+					{
+						"backend": [],
+						"rule": [
+							{
+								"http": [
+									{
+										"path": [
+											{
+												"backend": [
+													{},
+												],
+											},
+										],
+									},
+								],
+							},
+						],
+						"tls": [],
+					},
+				],
+				"status": true,
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "skiapp-ingress",
+		"provider_name":  "registry.terraform.io/hashicorp/kubernetes",
+		"type":           "kubernetes_ingress",
+	},
+	"kubernetes_service.skiapp-service": {
+		"address": "kubernetes_service.skiapp-service",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"metadata": [
+					{
+						"annotations":   null,
+						"generate_name": null,
+						"labels":        null,
+						"name":          "skiapp-service",
+						"namespace":     "default",
+					},
+				],
+				"spec": [
+					{
+						"external_ips":                null,
+						"external_name":               null,
+						"load_balancer_ip":            null,
+						"load_balancer_source_ranges": null,
+						"port": [
+							{
+								"name":        null,
+								"port":        80,
+								"protocol":    "TCP",
+								"target_port": "8080",
+							},
+						],
+						"publish_not_ready_addresses": false,
+						"selector": {
+							"app": "skiapp",
+						},
+						"session_affinity": "None",
+						"type":             "LoadBalancer",
+					},
+				],
+				"timeouts":               null,
+				"wait_for_load_balancer": true,
+			},
+			"after_unknown": {
+				"id": true,
+				"metadata": [
+					{
+						"generation":       true,
+						"resource_version": true,
+						"uid":              true,
+					},
+				],
+				"spec": [
+					{
+						"cluster_ip":              true,
+						"external_traffic_policy": true,
+						"health_check_node_port":  true,
+						"port": [
+							{
+								"node_port": true,
+							},
+						],
+						"selector": {},
+					},
+				],
+				"status": true,
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "",
+		"name":           "skiapp-service",
+		"provider_name":  "registry.terraform.io/hashicorp/kubernetes",
+		"type":           "kubernetes_service",
+	},
+}
+
+output_changes = {}
+
+raw = {
+	"configuration": {
+		"provider_config": {
+			"aws": {
+				"expressions": {
+					"region": {
+						"constant_value": "us-west-2",
+					},
+				},
+				"name":               "aws",
+				"version_constraint": "~> 3.0",
+			},
+			"kubernetes": {
+				"expressions": {
+					"config_path": {
+						"constant_value": "~/.kube/config",
+					},
+				},
+				"name":               "kubernetes",
+				"version_constraint": "~> 2.0",
+			},
+		},
+		"root_module": {
+			"resources": [
+				{
+					"address": "kubernetes_deployment.skiapp-deployment",
+					"expressions": {
+						"metadata": [
+							{
+								"name": {
+									"constant_value": "skiapp-deployment",
+								},
+								"namespace": {
+									"constant_value": "default",
+								},
+							},
+						],
+						"spec": [
+							{
+								"replicas": {
+									"constant_value": "2",
+								},
+								"selector": [
+									{
+										"match_labels": {
+											"constant_value": {
+												"app": "skiapp",
+											},
+										},
+									},
+								],
+								"template": [
+									{
+										"metadata": [
+											{
+												"labels": {
+													"constant_value": {
+														"app": "skiapp",
+													},
+												},
+											},
+										],
+										"spec": [
+											{
+												"container": [
+													{
+														"image": {
+															"constant_value": "sharepointoscar/skiapp:v1",
+														},
+														"name": {
+															"constant_value": "skiapp",
+														},
+														"port": [
+															{
+																"container_port": {
+																	"constant_value": 8080,
+																},
+															},
+														],
+													},
+												],
+											},
+										],
+									},
+								],
+							},
+						],
+					},
+					"mode":                "managed",
+					"name":                "skiapp-deployment",
+					"provider_config_key": "kubernetes",
+					"schema_version":      1,
+					"type":                "kubernetes_deployment",
+				},
+				{
+					"address": "kubernetes_ingress.skiapp-ingress",
+					"expressions": {
+						"metadata": [
+							{
+								"annotations": {
+									"constant_value": {
+										"alb.ingress.kubernetes.io/group.name":  "marketing",
+										"alb.ingress.kubernetes.io/scheme":      "internet-facing",
+										"alb.ingress.kubernetes.io/tags":        "Environment=dev,Team=Finance",
+										"alb.ingress.kubernetes.io/target-type": "ip",
+										"kubernetes.io/ingress.class":           "alb",
+									},
+								},
+								"name": {
+									"constant_value": "skiapp-ingress",
+								},
+								"namespace": {
+									"constant_value": "default",
+								},
+							},
+						],
+						"spec": [
+							{
+								"rule": [
+									{
+										"host": {
+											"constant_value": "skiapp.k8s.devopsoscar.dev",
+										},
+										"http": [
+											{
+												"path": [
+													{
+														"backend": [
+															{
+																"service_name": {
+																	"constant_value": "skiapp-service",
+																},
+																"service_port": {
+																	"constant_value": "80",
+																},
+															},
+														],
+														"path": {
+															"constant_value": "/*",
+														},
+													},
+												],
+											},
+										],
+									},
+								],
+							},
+						],
+					},
+					"mode":                "managed",
+					"name":                "skiapp-ingress",
+					"provider_config_key": "kubernetes",
+					"schema_version":      1,
+					"type":                "kubernetes_ingress",
+				},
+				{
+					"address": "kubernetes_service.skiapp-service",
+					"expressions": {
+						"metadata": [
+							{
+								"name": {
+									"constant_value": "skiapp-service",
+								},
+								"namespace": {
+									"constant_value": "default",
+								},
+							},
+						],
+						"spec": [
+							{
+								"port": [
+									{
+										"port": {
+											"constant_value": 80,
+										},
+										"protocol": {
+											"constant_value": "TCP",
+										},
+										"target_port": {
+											"constant_value": "8080",
+										},
+									},
+								],
+								"selector": {
+									"constant_value": {
+										"app": "skiapp",
+									},
+								},
+								"type": {
+									"constant_value": "LoadBalancer",
+								},
+							},
+						],
+					},
+					"mode":                "managed",
+					"name":                "skiapp-service",
+					"provider_config_key": "kubernetes",
+					"schema_version":      1,
+					"type":                "kubernetes_service",
+				},
+			],
+		},
+	},
+	"format_version": "0.2",
+	"planned_values": {
+		"root_module": {
+			"resources": [
+				{
+					"address":        "kubernetes_deployment.skiapp-deployment",
+					"mode":           "managed",
+					"name":           "skiapp-deployment",
+					"provider_name":  "registry.terraform.io/hashicorp/kubernetes",
+					"schema_version": 1,
+					"sensitive_values": {
+						"metadata": [
+							{},
+						],
+						"spec": [
+							{
+								"selector": [
+									{
+										"match_expressions": [],
+										"match_labels":      {},
+									},
+								],
+								"strategy": [],
+								"template": [
+									{
+										"metadata": [
+											{
+												"labels": {},
+											},
+										],
+										"spec": [
+											{
+												"affinity": [],
+												"container": [
+													{
+														"env":            [],
+														"env_from":       [],
+														"lifecycle":      [],
+														"liveness_probe": [],
+														"port": [
+															{},
+														],
+														"readiness_probe":  [],
+														"resources":        [],
+														"security_context": [],
+														"startup_probe":    [],
+														"volume_mount":     [],
+													},
+												],
+												"dns_config":                 [],
+												"host_aliases":               [],
+												"image_pull_secrets":         [],
+												"init_container":             [],
+												"readiness_gate":             [],
+												"security_context":           [],
+												"toleration":                 [],
+												"topology_spread_constraint": [],
+												"volume":                     [],
+											},
+										],
+									},
+								],
+							},
+						],
+					},
+					"type": "kubernetes_deployment",
+					"values": {
+						"metadata": [
+							{
+								"annotations":   null,
+								"generate_name": null,
+								"labels":        null,
+								"name":          "skiapp-deployment",
+								"namespace":     "default",
+							},
+						],
+						"spec": [
+							{
+								"min_ready_seconds":         0,
+								"paused":                    false,
+								"progress_deadline_seconds": 600,
+								"replicas":                  "2",
+								"revision_history_limit":    10,
+								"selector": [
+									{
+										"match_expressions": [],
+										"match_labels": {
+											"app": "skiapp",
+										},
+									},
+								],
+								"template": [
+									{
+										"metadata": [
+											{
+												"annotations":   null,
+												"generate_name": null,
+												"labels": {
+													"app": "skiapp",
+												},
+												"namespace": null,
+											},
+										],
+										"spec": [
+											{
+												"active_deadline_seconds":         null,
+												"affinity":                        [],
+												"automount_service_account_token": true,
+												"container": [
+													{
+														"args":           null,
+														"command":        null,
+														"env":            [],
+														"env_from":       [],
+														"image":          "sharepointoscar/skiapp:v1",
+														"lifecycle":      [],
+														"liveness_probe": [],
+														"name":           "skiapp",
+														"port": [
+															{
+																"container_port": 8080,
+																"host_ip":        null,
+																"host_port":      null,
+																"name":           null,
+																"protocol":       "TCP",
+															},
+														],
+														"readiness_probe":          [],
+														"security_context":         [],
+														"startup_probe":            [],
+														"stdin":                    false,
+														"stdin_once":               false,
+														"termination_message_path": "/dev/termination-log",
+														"tty":          false,
+														"volume_mount": [],
+														"working_dir":  null,
+													},
+												],
+												"dns_config":                       [],
+												"dns_policy":                       "ClusterFirst",
+												"enable_service_links":             true,
+												"host_aliases":                     [],
+												"host_ipc":                         false,
+												"host_network":                     false,
+												"host_pid":                         false,
+												"init_container":                   [],
+												"node_selector":                    null,
+												"priority_class_name":              null,
+												"restart_policy":                   "Always",
+												"security_context":                 [],
+												"share_process_namespace":          false,
+												"subdomain":                        null,
+												"termination_grace_period_seconds": 30,
+												"toleration":                       [],
+												"topology_spread_constraint":       [],
+											},
+										],
+									},
+								],
+							},
+						],
+						"timeouts":         null,
+						"wait_for_rollout": true,
+					},
+				},
+				{
+					"address":        "kubernetes_ingress.skiapp-ingress",
+					"mode":           "managed",
+					"name":           "skiapp-ingress",
+					"provider_name":  "registry.terraform.io/hashicorp/kubernetes",
+					"schema_version": 1,
+					"sensitive_values": {
+						"metadata": [
+							{
+								"annotations": {},
+							},
+						],
+						"spec": [
+							{
+								"backend": [],
+								"rule": [
+									{
+										"http": [
+											{
+												"path": [
+													{
+														"backend": [
+															{},
+														],
+													},
+												],
+											},
+										],
+									},
+								],
+								"tls": [],
+							},
+						],
+						"status": [],
+					},
+					"type": "kubernetes_ingress",
+					"values": {
+						"metadata": [
+							{
+								"annotations": {
+									"alb.ingress.kubernetes.io/group.name":  "marketing",
+									"alb.ingress.kubernetes.io/scheme":      "internet-facing",
+									"alb.ingress.kubernetes.io/tags":        "Environment=dev,Team=Finance",
+									"alb.ingress.kubernetes.io/target-type": "ip",
+									"kubernetes.io/ingress.class":           "alb",
+								},
+								"generate_name": null,
+								"labels":        null,
+								"name":          "skiapp-ingress",
+								"namespace":     "default",
+							},
+						],
+						"spec": [
+							{
+								"backend":            [],
+								"ingress_class_name": null,
+								"rule": [
+									{
+										"host": "skiapp.k8s.devopsoscar.dev",
+										"http": [
+											{
+												"path": [
+													{
+														"backend": [
+															{
+																"service_name": "skiapp-service",
+																"service_port": "80",
+															},
+														],
+														"path": "/*",
+													},
+												],
+											},
+										],
+									},
+								],
+								"tls": [],
+							},
+						],
+						"wait_for_load_balancer": null,
+					},
+				},
+				{
+					"address":        "kubernetes_service.skiapp-service",
+					"mode":           "managed",
+					"name":           "skiapp-service",
+					"provider_name":  "registry.terraform.io/hashicorp/kubernetes",
+					"schema_version": 1,
+					"sensitive_values": {
+						"metadata": [
+							{},
+						],
+						"spec": [
+							{
+								"port": [
+									{},
+								],
+								"selector": {},
+							},
+						],
+						"status": [],
+					},
+					"type": "kubernetes_service",
+					"values": {
+						"metadata": [
+							{
+								"annotations":   null,
+								"generate_name": null,
+								"labels":        null,
+								"name":          "skiapp-service",
+								"namespace":     "default",
+							},
+						],
+						"spec": [
+							{
+								"external_ips":                null,
+								"external_name":               null,
+								"load_balancer_ip":            null,
+								"load_balancer_source_ranges": null,
+								"port": [
+									{
+										"name":        null,
+										"port":        80,
+										"protocol":    "TCP",
+										"target_port": "8080",
+									},
+								],
+								"publish_not_ready_addresses": false,
+								"selector": {
+									"app": "skiapp",
+								},
+								"session_affinity": "None",
+								"type":             "LoadBalancer",
+							},
+						],
+						"timeouts":               null,
+						"wait_for_load_balancer": true,
+					},
+				},
+			],
+		},
+	},
+	"resource_changes": [
+		{
+			"address": "kubernetes_deployment.skiapp-deployment",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"metadata": [
+						{
+							"annotations":   null,
+							"generate_name": null,
+							"labels":        null,
+							"name":          "skiapp-deployment",
+							"namespace":     "default",
+						},
+					],
+					"spec": [
+						{
+							"min_ready_seconds":         0,
+							"paused":                    false,
+							"progress_deadline_seconds": 600,
+							"replicas":                  "2",
+							"revision_history_limit":    10,
+							"selector": [
+								{
+									"match_expressions": [],
+									"match_labels": {
+										"app": "skiapp",
+									},
+								},
+							],
+							"template": [
+								{
+									"metadata": [
+										{
+											"annotations":   null,
+											"generate_name": null,
+											"labels": {
+												"app": "skiapp",
+											},
+											"namespace": null,
+										},
+									],
+									"spec": [
+										{
+											"active_deadline_seconds":         null,
+											"affinity":                        [],
+											"automount_service_account_token": true,
+											"container": [
+												{
+													"args":           null,
+													"command":        null,
+													"env":            [],
+													"env_from":       [],
+													"image":          "sharepointoscar/skiapp:v1",
+													"lifecycle":      [],
+													"liveness_probe": [],
+													"name":           "skiapp",
+													"port": [
+														{
+															"container_port": 8080,
+															"host_ip":        null,
+															"host_port":      null,
+															"name":           null,
+															"protocol":       "TCP",
+														},
+													],
+													"readiness_probe":          [],
+													"security_context":         [],
+													"startup_probe":            [],
+													"stdin":                    false,
+													"stdin_once":               false,
+													"termination_message_path": "/dev/termination-log",
+													"tty":          false,
+													"volume_mount": [],
+													"working_dir":  null,
+												},
+											],
+											"dns_config":                       [],
+											"dns_policy":                       "ClusterFirst",
+											"enable_service_links":             true,
+											"host_aliases":                     [],
+											"host_ipc":                         false,
+											"host_network":                     false,
+											"host_pid":                         false,
+											"init_container":                   [],
+											"node_selector":                    null,
+											"priority_class_name":              null,
+											"restart_policy":                   "Always",
+											"security_context":                 [],
+											"share_process_namespace":          false,
+											"subdomain":                        null,
+											"termination_grace_period_seconds": 30,
+											"toleration":                       [],
+											"topology_spread_constraint":       [],
+										},
+									],
+								},
+							],
+						},
+					],
+					"timeouts":         null,
+					"wait_for_rollout": true,
+				},
+				"after_sensitive": {
+					"metadata": [
+						{},
+					],
+					"spec": [
+						{
+							"selector": [
+								{
+									"match_expressions": [],
+									"match_labels":      {},
+								},
+							],
+							"strategy": [],
+							"template": [
+								{
+									"metadata": [
+										{
+											"labels": {},
+										},
+									],
+									"spec": [
+										{
+											"affinity": [],
+											"container": [
+												{
+													"env":            [],
+													"env_from":       [],
+													"lifecycle":      [],
+													"liveness_probe": [],
+													"port": [
+														{},
+													],
+													"readiness_probe":  [],
+													"resources":        [],
+													"security_context": [],
+													"startup_probe":    [],
+													"volume_mount":     [],
+												},
+											],
+											"dns_config":                 [],
+											"host_aliases":               [],
+											"image_pull_secrets":         [],
+											"init_container":             [],
+											"readiness_gate":             [],
+											"security_context":           [],
+											"toleration":                 [],
+											"topology_spread_constraint": [],
+											"volume":                     [],
+										},
+									],
+								},
+							],
+						},
+					],
+				},
+				"after_unknown": {
+					"id": true,
+					"metadata": [
+						{
+							"generation":       true,
+							"resource_version": true,
+							"uid":              true,
+						},
+					],
+					"spec": [
+						{
+							"selector": [
+								{
+									"match_expressions": [],
+									"match_labels":      {},
+								},
+							],
+							"strategy": true,
+							"template": [
+								{
+									"metadata": [
+										{
+											"generation":       true,
+											"labels":           {},
+											"name":             true,
+											"resource_version": true,
+											"uid":              true,
+										},
+									],
+									"spec": [
+										{
+											"affinity": [],
+											"container": [
+												{
+													"env":               [],
+													"env_from":          [],
+													"image_pull_policy": true,
+													"lifecycle":         [],
+													"liveness_probe":    [],
+													"port": [
+														{},
+													],
+													"readiness_probe":            [],
+													"resources":                  true,
+													"security_context":           [],
+													"startup_probe":              [],
+													"termination_message_policy": true,
+													"volume_mount":               [],
+												},
+											],
+											"dns_config":                 [],
+											"host_aliases":               [],
+											"hostname":                   true,
+											"image_pull_secrets":         true,
+											"init_container":             [],
+											"node_name":                  true,
+											"readiness_gate":             true,
+											"security_context":           [],
+											"service_account_name":       true,
+											"toleration":                 [],
+											"topology_spread_constraint": [],
+											"volume":                     true,
+										},
+									],
+								},
+							],
+						},
+					],
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":          "managed",
+			"name":          "skiapp-deployment",
+			"provider_name": "registry.terraform.io/hashicorp/kubernetes",
+			"type":          "kubernetes_deployment",
+		},
+		{
+			"address": "kubernetes_ingress.skiapp-ingress",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"metadata": [
+						{
+							"annotations": {
+								"alb.ingress.kubernetes.io/group.name":  "marketing",
+								"alb.ingress.kubernetes.io/scheme":      "internet-facing",
+								"alb.ingress.kubernetes.io/tags":        "Environment=dev,Team=Finance",
+								"alb.ingress.kubernetes.io/target-type": "ip",
+								"kubernetes.io/ingress.class":           "alb",
+							},
+							"generate_name": null,
+							"labels":        null,
+							"name":          "skiapp-ingress",
+							"namespace":     "default",
+						},
+					],
+					"spec": [
+						{
+							"backend":            [],
+							"ingress_class_name": null,
+							"rule": [
+								{
+									"host": "skiapp.k8s.devopsoscar.dev",
+									"http": [
+										{
+											"path": [
+												{
+													"backend": [
+														{
+															"service_name": "skiapp-service",
+															"service_port": "80",
+														},
+													],
+													"path": "/*",
+												},
+											],
+										},
+									],
+								},
+							],
+							"tls": [],
+						},
+					],
+					"wait_for_load_balancer": null,
+				},
+				"after_sensitive": {
+					"metadata": [
+						{
+							"annotations": {},
+						},
+					],
+					"spec": [
+						{
+							"backend": [],
+							"rule": [
+								{
+									"http": [
+										{
+											"path": [
+												{
+													"backend": [
+														{},
+													],
+												},
+											],
+										},
+									],
+								},
+							],
+							"tls": [],
+						},
+					],
+					"status": [],
+				},
+				"after_unknown": {
+					"id": true,
+					"metadata": [
+						{
+							"annotations":      {},
+							"generation":       true,
+							"resource_version": true,
+							"uid":              true,
+						},
+					],
+					"spec": [
+						{
+							"backend": [],
+							"rule": [
+								{
+									"http": [
+										{
+											"path": [
+												{
+													"backend": [
+														{},
+													],
+												},
+											],
+										},
+									],
+								},
+							],
+							"tls": [],
+						},
+					],
+					"status": true,
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":          "managed",
+			"name":          "skiapp-ingress",
+			"provider_name": "registry.terraform.io/hashicorp/kubernetes",
+			"type":          "kubernetes_ingress",
+		},
+		{
+			"address": "kubernetes_service.skiapp-service",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"metadata": [
+						{
+							"annotations":   null,
+							"generate_name": null,
+							"labels":        null,
+							"name":          "skiapp-service",
+							"namespace":     "default",
+						},
+					],
+					"spec": [
+						{
+							"external_ips":                null,
+							"external_name":               null,
+							"load_balancer_ip":            null,
+							"load_balancer_source_ranges": null,
+							"port": [
+								{
+									"name":        null,
+									"port":        80,
+									"protocol":    "TCP",
+									"target_port": "8080",
+								},
+							],
+							"publish_not_ready_addresses": false,
+							"selector": {
+								"app": "skiapp",
+							},
+							"session_affinity": "None",
+							"type":             "LoadBalancer",
+						},
+					],
+					"timeouts":               null,
+					"wait_for_load_balancer": true,
+				},
+				"after_sensitive": {
+					"metadata": [
+						{},
+					],
+					"spec": [
+						{
+							"port": [
+								{},
+							],
+							"selector": {},
+						},
+					],
+					"status": [],
+				},
+				"after_unknown": {
+					"id": true,
+					"metadata": [
+						{
+							"generation":       true,
+							"resource_version": true,
+							"uid":              true,
+						},
+					],
+					"spec": [
+						{
+							"cluster_ip":              true,
+							"external_traffic_policy": true,
+							"health_check_node_port":  true,
+							"port": [
+								{
+									"node_port": true,
+								},
+							],
+							"selector": {},
+						},
+					],
+					"status": true,
+				},
+				"before":           null,
+				"before_sensitive": false,
+			},
+			"mode":          "managed",
+			"name":          "skiapp-service",
+			"provider_name": "registry.terraform.io/hashicorp/kubernetes",
+			"type":          "kubernetes_service",
+		},
+	],
+	"terraform_version": "1.0.6",
+}
